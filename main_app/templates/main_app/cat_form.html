@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Add a New Cat | Cat Collector
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Add a New Cat</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <table>
+        {{ form.as_table }}
+    </table>
+    <input type="submit" value="Add New Cat" class="btn green" />
+</form>
+
+{% endblock %}
