@@ -1,4 +1,4 @@
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from django.shortcuts import render
 from .models import Cat
@@ -20,3 +20,11 @@ def cats_detail(request, cat_id):
 class CatsCreate(CreateView):
     model = Cat
     fields = '__all__'
+
+class CatsUpdate(UpdateView):
+    model = Cat
+    fields = ('age', 'description')
+
+class CatsDelete(DeleteView):
+    model = Cat
+    success_url = '/cats/'

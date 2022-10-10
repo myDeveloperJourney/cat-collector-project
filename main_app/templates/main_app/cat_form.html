@@ -8,14 +8,18 @@ Add a New Cat | Cat Collector
 
 {% block content %}
 
+{% if object %}
+<h1>Edit {{ object.name }}'s Details</h1>
+{% else %}
 <h1>Add a New Cat</h1>
+{% endif %}
 
 <form action="" method="POST">
     {% csrf_token %}
     <table>
         {{ form.as_table }}
     </table>
-    <input type="submit" value="Add New Cat" class="btn green" />
+    <input type="submit" value="{% if object %} Edit {% else %} Add New {% endif %}" class="btn green" />
 </form>
 
 {% endblock %}
