@@ -22,6 +22,10 @@ Details for {{ cat.name }} | Cat Collector
         <p>Age: Kitten</p>
         {% endif %}
     </div>
+    <div class="card-action">
+        <a href="{% url 'cats_update' cat.id %}">Update</a>
+        <a href="{% url 'cats_delete' cat.id %}">Delete</a>
+    </div>
 </div>
 
 {% endblock %}
