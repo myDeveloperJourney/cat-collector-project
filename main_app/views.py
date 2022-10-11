@@ -39,7 +39,7 @@ def add_feeding(request, cat_id):
 
 class CatsCreate(CreateView):
     model = Cat
-    fields = '__all__'
+    fields = ('name', 'breed', 'description', 'age')
 
 class CatsUpdate(UpdateView):
     model = Cat
