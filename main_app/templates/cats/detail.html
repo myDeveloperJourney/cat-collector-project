@@ -47,10 +47,10 @@ Details for {{ cat.name }} | Cat Collector
             </thead>
             <tbody>
                 {% for feeding in cat.feeding_set.all %}
-                    <tr>
-                        <td>{{ feeding.date }}</td>
-                        <td>{{ feeding.get_meal_display }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ feeding.date }}</td>
+                    <td>{{ feeding.get_meal_display }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -63,17 +63,34 @@ Details for {{ cat.name }} | Cat Collector
     <div class="col s6">
         <h3>{{ cat.name }}'s Toys</h3>
         {% if cat.toys.count %}
-            {% for toy in cat.toys.all %}
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title">
-                            A <span class="{{ toy.color.lower }}-text">{{ toy.color.capitalize }}</span> {{ toy.name }}
-                        </span>
-                    </div>
+        {% for toy in cat.toys.all %}
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">
+                    A <span class="{{ toy.color.lower }}-text">{{ toy.color.capitalize }}</span> {{ toy.name }}
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h5>{{ cat.name }} doesn't have any toys</h5>
+        {% endif %}
+    </div>
+    <div class="col s6">
+        <h3>Available Toys</h3>
+        {% if toys.count %}
+            {% for toy in toys.all %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">
+                        A <span class="{{ toy.color.lower }}-text">
+                            {{ toy.color.capitalize }}</span> {{ toy.name }}
+                    </span>
                 </div>
+            </div>
             {% endfor %}
         {% else %}
-            <h5>{{ cat.name }} doesn't have any toys</h5>
+        <h5>{{ cat.name }} has all available toys</h5>
         {% endif %}
     </div>
 </div>
@@ -90,7 +107,6 @@ Details for {{ cat.name }} | Cat Collector
     });
 
     M.FormSelect.init(mealSelect);
-
 </script>
 
 {% endblock %}
