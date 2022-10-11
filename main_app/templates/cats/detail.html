@@ -87,6 +87,12 @@ Details for {{ cat.name }} | Cat Collector
                             {{ toy.color.capitalize }}</span> {{ toy.name }}
                     </span>
                 </div>
+                <div class="card-action">
+                    <form action="{% url 'assoc_toy' cat.id toy.id %}" method="POST">
+                        {% csrf_token %}
+                        <input class="btn blue" type="submit" value="Add">
+                    </form>
+                </div>
             </div>
             {% endfor %}
         {% else %}
