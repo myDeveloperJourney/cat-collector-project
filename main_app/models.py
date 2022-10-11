@@ -22,6 +22,9 @@ class Feeding(models.Model):
         ('D', 'Dinner'),
     )
 
+    class Meta:
+        ordering = ('-date',)
+
     date = models.DateField('feeding date')
     meal = models.CharField(max_length=1, choices=MEALS, default=MEALS[0][0])
     cat = models.ForeignKey(Cat, on_delete=models.CASCADE)

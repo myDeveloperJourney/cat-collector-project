@@ -31,6 +31,13 @@ Details for {{ cat.name }} | Cat Collector
         </div>
     </div>
     <div class="col s6">
+
+        <form action="{% url 'add_feeding' cat.id %}" method="POST">
+            {% csrf_token %}
+            {{ feeding_form.as_p }}
+            <input class="btn blue" type="submit" value="Add Feeding">
+        </form>
+
         <table class="striped">
             <thead>
                 <tr>
@@ -50,5 +57,19 @@ Details for {{ cat.name }} | Cat Collector
     </div>
 </div>
 
+<script>
+    const dateField = document.getElementById('id_date');
+    const mealSelect = document.getElementById('id_meal');
+
+    M.Datepicker.init(dateField, {
+        format: 'mmm dd, yyyy',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+
+    M.FormSelect.init(mealSelect);
+
+</script>
 
 {% endblock %}
