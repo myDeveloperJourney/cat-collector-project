@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Details for {{ object.name }} | Cat Collector
+
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Toy Details</h1>
+
+<div class="card">
+    <div class="card-content">
+        <span class="card-title">
+            A <span class="{{ object.color.lower }}-text">{{ object.color.capitalize }}</span> {{ object.name }}
+        </span>
+    </div>
+    <div class="card-action">
+        <a href="{% url 'toys_update' object.id %}">Update</a>
+        <a href="{% url 'toys_delete' object.id %}">Delete</a>
+    </div>
+</div>
+
+{% endblock %}

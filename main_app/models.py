@@ -9,6 +9,9 @@ class Toy(models.Model):
 
     def __str__(self):
         return f'A {self.color} {self.name}'
+    
+    def get_absolute_url(self):
+        return reverse('toys_detail', kwargs={'pk': self.id})
 
 class Cat(models.Model):
     name = models.CharField(max_length=100)

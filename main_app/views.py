@@ -1,7 +1,7 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-
+from django.views.generic import ListView, DetailView
 from django.shortcuts import render, redirect
-from .models import Cat
+from .models import Cat, Toy
 from .forms import FeedingForm
 
 def home(request):
@@ -48,3 +48,23 @@ class CatsUpdate(UpdateView):
 class CatsDelete(DeleteView):
     model = Cat
     success_url = '/cats/'
+
+class ToysCreate(CreateView):
+    model = Toy
+    fields = ('name', 'color')
+
+class ToysIndex(ListView):
+    template_name = 'toys/index.html'
+    model = Toy
+
+class ToysDetail(DetailView):
+    template_name = 'toys/detail.html'
+    model = Toy
+
+class ToysUpdate(UpdateView):
+    model = Toy
+    fields = ('name', 'color')
+
+class ToysDelete(DeleteView):
+    model = Toy
+    success_url = '/toys/'

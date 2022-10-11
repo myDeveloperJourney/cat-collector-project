@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Are You Sure You Want to Delete Your {{object.color}} {{ object.name }}? | Cat Collector
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Are you sure you want to delete your <span class="{{ object.color.lower }}-text">{{ object.color.capitalize }}</span> {{ object.name }}?</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input class="btn red" type="submit" value="Yes - Delete">
+    <a class="btn blue" href="{% url 'toys_detail' object.id %}">No - Cancel</a>
+</form>
+
+{% endblock %}
+

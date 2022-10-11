@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Cat Toys Index | Cat Collector
+{% endblock %}
+
+{% block content %}
+<h1>Toys Index</h1>
+
+{% for toy in object_list %}
+<a href="{% url 'toys_detail' toy.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">
+                A <span class="{{ toy.color.lower }}-text">{{ toy.color.capitalize }}</span>
+                {{ toy.name }}
+            </span>
+        </div>
+    </div>
+</a>
+{% endfor %}
+
+
+{% endblock %}
