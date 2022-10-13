@@ -1,8 +1,15 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
+
 from django.shortcuts import render, redirect
+
 from .models import Cat, Toy, Photo
+
+from django.contrib.auth import login
+
 from .forms import FeedingForm
+from django.contrib.auth.forms import UserCreationForm
+
 
 import boto3
 import uuid
@@ -17,7 +24,7 @@ def about(request):
     return render(request, 'about.html')
 
 def cats_index(request):
-    cats = Cat.objects.all()
+    cats = Cat.objects.filter(user=request.user)
     return render(request, 'cats/index.html', {'cats': cats})
 
 def cats_detail(request, cat_id):
@@ -78,9 +85,39 @@ def add_photo(request, cat_id):
     return redirect('cats_detail', cat_id=cat_id)
 
 
+def signup(request):
+    # what do with POST Requests?
+    error_message = None
+    if request.method == 'POST':
+        # capture user input from the form submission
+        form = UserCreationForm(request.POST)
+        # check the form to ensure it's valid
+        if form.is_valid():
+            # use the user input to create a new user in the database
+            user = form.save()
+            # log the user in
+            login(request, user)
+            # redirect the user to the cats_index page
+            return redirect('cats_index')
+        else:
+            # if the form data is not valid, we'll set an error message
+            error_message = 'Signup input invalid - Please try again'
+    # what to do with GET Requests?
+    # create an instance of the UserCreateForm and provide the form as context to 
+    # the template
+    form = UserCreationForm()
+    # render the signup template
+    context = { 'form': form, 'error': error_message }
+    return render(request, 'registration/signup.html', context)
+
+
 class CatsCreate(CreateView):
     model = Cat
     fields = ('name', 'breed', 'description', 'age')
+    
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class CatsUpdate(UpdateView):
     model = Cat
