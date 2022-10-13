@@ -1,6 +1,9 @@
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from django.shortcuts import render, redirect
 
 from .models import Cat, Toy, Photo
@@ -23,10 +26,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def cats_index(request):
     cats = Cat.objects.filter(user=request.user)
     return render(request, 'cats/index.html', {'cats': cats})
 
+@login_required
 def cats_detail(request, cat_id):
     cat = Cat.objects.get(id=cat_id)
     feeding_form = FeedingForm()
@@ -38,6 +43,7 @@ def cats_detail(request, cat_id):
         'toys': toys
     })
 
+@login_required
 def add_feeding(request, cat_id):
     # capture form input from the request
     print(request.POST)
@@ -53,10 +59,12 @@ def add_feeding(request, cat_id):
         print(form.errors)
     return redirect('cats_detail', cat_id=cat_id)
 
+@login_required
 def assoc_toy(request, cat_id, toy_id):
     Cat.objects.get(id=cat_id).toys.add(toy_id)
     return redirect('cats_detail', cat_id=cat_id)
 
+@login_required
 def add_photo(request, cat_id):
     # 1) capture form input - aka photo files
     photo_file = request.FILES.get('photo-files')
@@ -84,7 +92,6 @@ def add_photo(request, cat_id):
     # 3) In every case, we'll always redirect back to the detail page for the cat
     return redirect('cats_detail', cat_id=cat_id)
 
-
 def signup(request):
     # what do with POST Requests?
     error_message = None
@@ -110,8 +117,7 @@ def signup(request):
     context = { 'form': form, 'error': error_message }
     return render(request, 'registration/signup.html', context)
 
-
-class CatsCreate(CreateView):
+class CatsCreate(LoginRequiredMixin, CreateView):
     model = Cat
     fields = ('name', 'breed', 'description', 'age')
     
@@ -119,30 +125,30 @@ class CatsCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class CatsUpdate(UpdateView):
+class CatsUpdate(LoginRequiredMixin, UpdateView):
     model = Cat
     fields = ('age', 'description')
 
-class CatsDelete(DeleteView):
+class CatsDelete(LoginRequiredMixin, DeleteView):
     model = Cat
     success_url = '/cats/'
 
-class ToysCreate(CreateView):
+class ToysCreate(LoginRequiredMixin, CreateView):
     model = Toy
     fields = ('name', 'color')
 
-class ToysIndex(ListView):
+class ToysIndex(LoginRequiredMixin, ListView):
     template_name = 'toys/index.html'
     model = Toy
 
-class ToysDetail(DetailView):
+class ToysDetail(LoginRequiredMixin, DetailView):
     template_name = 'toys/detail.html'
     model = Toy
 
-class ToysUpdate(UpdateView):
+class ToysUpdate(LoginRequiredMixin, UpdateView):
     model = Toy
     fields = ('name', 'color')
 
-class ToysDelete(DeleteView):
+class ToysDelete(LoginRequiredMixin, DeleteView):
     model = Toy
     success_url = '/toys/'
