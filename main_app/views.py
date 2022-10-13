@@ -74,7 +74,7 @@ def assoc_toy(request, cat_id, toy_id):
 @login_required
 def add_photo(request, cat_id):
     # 1) capture form input - aka photo files
-    photo_file = request.FILES.get('photo-files')
+    photo_file = request.FILES.get('photo-file')
     # 2) if there is a photo file
     if photo_file:
         # 2.1 intialize a s3 client object

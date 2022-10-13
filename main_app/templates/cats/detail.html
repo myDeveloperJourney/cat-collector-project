@@ -31,7 +31,7 @@ Details for {{ cat.name }} | Cat Collector
         </div>
         {% for photo in cat.photo_set.all %}
             <img 
-                class="responsive-image card-panel" 
+                class="responsive-img card-panel" 
                 src="{{ photo.url }}" 
                 alt="{{ cat.name }}" 
             />
