@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+Are You Sure You Want to Delete {{ object.cat.name }}'s Photo? | Cat Collector
+
+{% endblock %}
+
+{% block content %}
+
+<h1>Are You Sure You Want to Delete {{ object.cat.name }}'s Photo?</h1>
+
+<img src="{{ object.url }}" alt="{{ object.cat.name }}" class="responsive-img card-panel container" />
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input class="btn red" type="submit" value="Yes - Delete">
+    <a class="btn blue" href="{% url 'cats_detail' object.cat.id %}">No - Cancel</a>
+</form>
+
+{% endblock %}
+

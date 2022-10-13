@@ -30,11 +30,16 @@ Details for {{ cat.name }} | Cat Collector
             </div>
         </div>
         {% for photo in cat.photo_set.all %}
+        <div class="card-panel">
             <img 
-                class="responsive-img card-panel" 
+                class="responsive-img" 
                 src="{{ photo.url }}" 
                 alt="{{ cat.name }}" 
             />
+            <div class="card-actions">
+                <a href="{% url 'photos_delete' photo.id %}" class="btn red">Delete</a>
+            </div>
+        </div>
         {% empty %}
             <div class="card-panel blue-text center-align">
                 No Photos Uploaded

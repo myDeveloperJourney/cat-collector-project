@@ -1,4 +1,5 @@
-from atexit import register
+from django.http import HttpResponseRedirect
+
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 
@@ -159,3 +160,23 @@ class ToysUpdate(LoginRequiredMixin, UpdateView):
 class ToysDelete(LoginRequiredMixin, DeleteView):
     model = Toy
     success_url = '/toys/'
+
+class PhotosDelete(LoginRequiredMixin, DeleteView):
+    model = Photo
+    
+    def form_valid(self, form):
+        
+        url = self.object.url
+        cat_id = self.object.cat.id
+        success_url = f'/cats/{cat_id}'
+        key = url.split(S3_BASE_URL + BUCKET + '/')[-1]
+
+        s3 = boto3.client('s3')
+
+        try:
+            s3.delete_object(Bucket=BUCKET, Key=key)
+            self.object.delete()
+        except Exception as error:
+            print('an error has occurred')
+            print(error)
+        return HttpResponseRedirect(success_url)
