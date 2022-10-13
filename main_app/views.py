@@ -1,3 +1,4 @@
+from atexit import register
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 
@@ -37,10 +38,16 @@ def cats_detail(request, cat_id):
     feeding_form = FeedingForm()
     # we need a list of toys that are not associated with the cat
     toys = Toy.objects.exclude(id__in=cat.toys.all().values_list('id')) # [1, 5, 10]
+    
+    import datetime
+    today = datetime.datetime.today()
+
+    todays_feedings = cat.feeding_set.filter(date=today)
     return render(request, 'cats/detail.html', {
         'cat': cat, 
         'feeding_form': feeding_form,
-        'toys': toys
+        'toys': toys,
+        'todays_feedings': todays_feedings
     })
 
 @login_required
