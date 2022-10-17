@@ -7,7 +7,7 @@ Cats Index | Cat Collector
 {% block content %}
 <h1>Cats Index</h1>
 
-{% for cat in cats %}
+{% for cat in object_list %}
 <a href="{% url 'cats_detail' cat.id %}">
     <div class="card">
         <div class="card-content">

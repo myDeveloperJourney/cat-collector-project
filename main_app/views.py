@@ -27,11 +27,20 @@ def home(request):
 
 def about(request):
     return render(request, 'about.html')
-
+"""
 @login_required
 def cats_index(request):
     cats = Cat.objects.filter(user=request.user)
     return render(request, 'cats/index.html', {'cats': cats})
+"""
+
+class CatsList(LoginRequiredMixin, ListView):
+    model = Cat
+
+    def get(self, request):
+        self.object_list = self.get_queryset().filter(user=self.request.user)
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
 @login_required
 def cats_detail(request, cat_id):
